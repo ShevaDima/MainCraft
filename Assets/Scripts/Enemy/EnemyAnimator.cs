@@ -13,8 +13,14 @@ public class EnemyAnimator : MonoBehaviour
 
   private Animator _animator;
 
-  private void Awake() =>
+  private void Awake() 
+  {
     _animator = GetComponent<Animator>();
+  }
+   
   
-  public void PlayAttack() => _animator.SetTrigger(Attack);
+  public void PlayAttack()
+  {
+     _animator.SetTrigger(Attack);
+  }
 }
