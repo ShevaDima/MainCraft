@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Enemy;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -13,6 +14,9 @@ public class PlayerController : MonoBehaviour
                   mouseX = 0f,
                   mouseY = 0f,
                   currentAngleX = 0f;
+
+    [SerializeField] 
+    private float Damage = 10f;
     
     private CharacterController controller;
     [SerializeField]
@@ -147,7 +151,7 @@ public class PlayerController : MonoBehaviour
                 Dig(tempObject.GetComponent<Block>());
                 break;
             case "Enemy":
-               
+                Attack(tempObject.GetComponent<EnemyHealth>());
                 break;
             case "Chest":
                 currentChestItems = tempObject.GetComponent<Chest>().chestItems;
@@ -304,6 +308,16 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             }
+        }
+    }
+
+    private void Attack(EnemyHealth enemyHealth)
+    {
+        if (Time.time - hitLastTime > 1 / hitScaleSpeed)
+        {
+            hitLastTime = Time.time;
+            currentEquipedItem.GetComponent<Animator>().SetTrigger("attack");
+            enemyHealth.TakeDamage(Damage);
         }
     }
 }
